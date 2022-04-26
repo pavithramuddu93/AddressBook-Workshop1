@@ -316,4 +316,10 @@ public class AddressBookImplement implements MultipleAddressBook {
         OpenCSVWriter openCSVWriter = new OpenCSVWriter();
         openCSVWriter.readData();
     }
+
+    public List<AddressBook> readAddressBookData() {
+        AddressBookDBService addressBookDBService = new AddressBookDBService();
+        entries = addressBookDBService.readData();
+        return entries;
+    }
 }
