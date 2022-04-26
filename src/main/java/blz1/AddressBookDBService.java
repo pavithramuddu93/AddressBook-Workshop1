@@ -87,4 +87,17 @@ public class AddressBookDBService {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<AddressBook> readFilteredData(String stateName) {
+        String sql = String.format("select * from address_book where state = '%s';",stateName);
+        List<AddressBook> addressBookList = new ArrayList<>();
+        try (Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            addressBookList = this.getAddressBookData(resultSet);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return (ArrayList<AddressBook>) addressBookList;
+    }
 }

@@ -343,4 +343,10 @@ public class AddressBookImplement implements MultipleAddressBook {
         }
         return null;
     }
+
+    public List<AddressBook> readFilteredAddressBookData(String stateName) {
+        AddressBookDBService addressBookDBService = new AddressBookDBService();
+        entries = addressBookDBService.readFilteredData(stateName);
+        return entries;
+    }
 }
