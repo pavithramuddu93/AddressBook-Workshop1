@@ -1,7 +1,6 @@
 package blz1;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -315,5 +314,33 @@ public class AddressBookImplement implements MultipleAddressBook {
     public void readAddressBookInCSV() throws IOException {
         OpenCSVWriter openCSVWriter = new OpenCSVWriter();
         openCSVWriter.readData();
+    }
+
+    public List<AddressBook> readAddressBookData() {
+        AddressBookDBService addressBookDBService = new AddressBookDBService();
+        entries = addressBookDBService.readData();
+        return entries;
+    }
+
+    public boolean checkAddressBookSyncWithDB(String name) {
+        AddressBookDBService addressBookDBService = new AddressBookDBService();
+        List<AddressBook>addressBookList= addressBookDBService.getAddressBookData(name);
+        return addressBookList.get(0).equals(getAddressBookData(name));
+    }
+
+    public void updateAddressBook(String name, String address) {
+        AddressBookDBService addressBookDBService = new AddressBookDBService();
+        int result = addressBookDBService.updateAdressBookData(name,address);
+        if (result == 0) return;
+        AddressBook addressBook = this.getAddressBookData(name);
+        if (addressBook != null) addressBook.address= address;
+    }
+
+    public AddressBook getAddressBookData(String name) {
+        for (AddressBook data : entries){
+            if (data.firstName.equals(name))
+                return data;
+        }
+        return null;
     }
 }
