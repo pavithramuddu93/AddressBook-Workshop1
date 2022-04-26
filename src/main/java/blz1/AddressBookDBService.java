@@ -100,4 +100,17 @@ public class AddressBookDBService {
         }
         return (ArrayList<AddressBook>) addressBookList;
     }
+
+    public AddressBook addContact(String bookName, String firstName, String lastName, String add, String city, String state, int zip, long phone, String email) {
+        String sql = String.format("insert into address_book (book_name,first_name,last_name,address,city,state,zip,phone_number,email) values ('%s','%s','%s','%s','%s','%s',%s,%s,'%s')",bookName,firstName,lastName,add,city,state,zip,phone,email);
+        AddressBook addressBook = null;
+        try (Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+            addressBook = new AddressBook(bookName, firstName, lastName, add, city, zip, city, phone, email);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return addressBook;
+    }
 }

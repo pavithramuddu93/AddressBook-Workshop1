@@ -349,4 +349,9 @@ public class AddressBookImplement implements MultipleAddressBook {
         entries = addressBookDBService.readFilteredData(stateName);
         return entries;
     }
+
+    public void addContacts(String bookName, String firstName, String lastName, String add, String city, String state, int zip, long phone, String email) {
+        AddressBookDBService addressBookDBService = new AddressBookDBService();
+        entries.add(addressBookDBService.addContact(bookName,firstName,lastName,add,city,state,zip,phone,email));
+    }
 }
