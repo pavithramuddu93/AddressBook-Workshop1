@@ -354,4 +354,29 @@ public class AddressBookImplement implements MultipleAddressBook {
         AddressBookDBService addressBookDBService = new AddressBookDBService();
         entries.add(addressBookDBService.addContact(bookName,firstName,lastName,add,city,state,zip,phone,email));
     }
+
+    public long countEntries() {
+        return entries.size();
+    }
+
+    public void addContactDBWithThreads(List<AddressBook> addressBooks) {
+        AddressBook addressBookPOJO = new AddressBook();
+        Map<Integer,Boolean> contactAdditionStatus = new HashMap<Integer,Boolean>();
+        addressBooks.forEach(addressBook1 -> {
+            Runnable task = () ->{
+                contactAdditionStatus.put(addressBookPOJO.hashCode(),false);
+                System.out.println("Contact Being Added : " + Thread.currentThread().getName());
+                this.addContacts(addressBook1.bookName,addressBook1.firstName,addressBook1.lastName,addressBook1.address,addressBook1.city,addressBook1.state,addressBook1.zip,addressBook1.phoneNumber,addressBook1.email);
+                contactAdditionStatus.put(addressBookPOJO.hashCode(),true);
+                System.out.println("Employee Being Added : " + Thread.currentThread().getName());
+            };
+            Thread thread = new Thread(task, addressBook1.firstName);
+            thread.start();
+        });
+        while (contactAdditionStatus.containsValue(false)){
+            try{Thread.sleep(10);
+            }catch (InterruptedException e){}
+        }
+        System.out.println(addressBooks);
+    }
 }

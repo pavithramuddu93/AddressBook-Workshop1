@@ -1,9 +1,13 @@
 import blz1.AddressBook;
-import blz1.AddressBookImplement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
+
+import blz1.AddressBookImplement;
 
 public class AddressBookTest {
 
@@ -42,5 +46,22 @@ public class AddressBookTest {
         Assertions.assertTrue(result);
     }
 
-
+    @Test
+    void givenNewContactToAddressBookDB_whenAdded_shouldMatchWithEntries() {
+        AddressBook[] addressBooks = {
+                new AddressBook("book0", "Rohit", "Maywade", "mumbai", "mumbai", 456536, "mh", 345634566, "gg@gmail.com"),
+                new AddressBook("book4", "gsdf", "Maywade", "mumbai", "mumbai", 456536, "mh", 345634566, "gg@gmail.com"),
+                new AddressBook("book5", "dgdf", "Maywade", "mumbai", "mumbai", 456536, "mh", 345634566, "gg@gmail.com"),
+                new AddressBook("book6", "dfgf", "Maywade", "mumbai", "mumbai", 456536, "mh", 345634566, "gg@gmail.com"),
+                new AddressBook("book7", "dfg", "Maywade", "mumbai", "mumbai", 456536, "mh", 345634566, "gg@gmail.com"),
+                new AddressBook("book8", "dfg", "Maywade", "mumbai", "mumbai", 456536, "mh", 345634566, "gg@gmail.com")
+        };
+        AddressBookImplement addressBookImplement = new AddressBookImplement();
+        addressBookImplement.readAddressBookData();
+        Instant threadStart = Instant.now();
+        addressBookImplement.addContactDBWithThreads(Arrays.asList(addressBooks));
+        Instant threadEnd = Instant.now();
+        System.out.println("Duration with thread  " + Duration.between(threadStart, threadEnd));
+        Assertions.assertEquals(11, addressBookImplement.countEntries());
+    }
 }
