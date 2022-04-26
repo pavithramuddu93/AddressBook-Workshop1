@@ -33,5 +33,14 @@ public class AddressBookTest {
         Assertions.assertEquals(2, addressBookList.size());
     }
 
+    @Test
+    void givenNewContactToDB_whenAdded_shouldSyncWithDB () {
+        AddressBookImplement addressBookImplement = new AddressBookImplement();
+        addressBookImplement.readAddressBookData();
+        addressBookImplement.addContacts("book3","Rohit","Maywade","mumbai","mumbai","mh",456536,345634566,"gg@gmail.com");
+        boolean result = addressBookImplement.checkAddressBookSyncWithDB("Rohit");
+        Assertions.assertTrue(result);
+    }
+
 
 }
