@@ -24,5 +24,14 @@ public class AddressBookTest {
         Assertions.assertEquals(true, result);
     }
 
+    @Test
+    void givenStateForAddressBookDB_WhenRetrieved_ShouldMatchExpectedCount() {
+        AddressBookImplement addressBookImplement = new AddressBookImplement();
+        String state = "mp";
+        List<AddressBook> addressBookList = addressBookImplement.readFilteredAddressBookData(state);
+        System.out.println(addressBookList);
+        Assertions.assertEquals(2, addressBookList.size());
+    }
+
 
 }
